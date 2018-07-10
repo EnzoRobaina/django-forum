@@ -10,18 +10,29 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
-    avatar = models.ImageField(upload_to='avatars/', height_field='', width_field='', blank=True)
+    #funcao que define o diretorio da imagem como o nome do usuario em questao
+    def imagepath(instance,filename):
+            val="avatars/" + str(instance.username) + "/" + str(filename)
+            return val
+            
+    avatar = models.ImageField(upload_to=imagepath, height_field='', width_field='', blank=True)
 
-def __str__(self):
+    def __str__(self):
         return 'ID: {}, username: {}'.format(self.id, self.username)
 
 class Discussao(models.Model):
+    class Meta:
+        verbose_name_plural = "Discussões"
+    
     titulo = (models.CharField(max_length=20))
 
     def __str__(self):
         return 'Titulo: {}'.format(self.titulo)
 
 class Topico(models.Model):
+    class Meta:
+        verbose_name_plural = "Tópicos"
+
     discussao_fk = models.ForeignKey(Discussao, on_delete=models.CASCADE)
     titulo = models.CharField(max_length=20)
     autor = models.ForeignKey(User, on_delete=models.CASCADE)

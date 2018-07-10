@@ -1,4 +1,5 @@
 {% load static %}
+{% load tags %}
 <!DOCTYPE html>
 <html>
   <head>
@@ -7,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="Enzo">
-    <title>Tópico</title>
+    <title>{{ topico.titulo }}</title>
     <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
     <script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
     <link href="{% static 'forum/css/bootstrap.min.css' %}" rel="stylesheet">
@@ -50,7 +51,7 @@
                     <div id = "profile">
                     <figure>
                         <img class="rounded align-self-start mr-3 img-thumbnail float-left" {% if not r.autor.avatar %} src="{% static 'forum/img/profile.png' %}" {% else %} src="{{ r.autor.avatar.url }}" {% endif %} alt="Profile Pic" width="128" height="256">
-                      <figcaption><span id = "profile-fig-caption"> {{ r.autor.first_name }} {{ r.autor.last_name }} <br> {{ r.autor.username }} <br> Posts: 12 <br> Replies: 13</span></figcaption> 
+                      <figcaption><span id = "profile-fig-caption"> {{ r.autor.first_name }} {{ r.autor.last_name }} <br> {{ r.autor.username }} <br> Posts: {{ posts|get_value_from_dict:r.autor.username }} <br> Respostas: {{ respostas|get_value_from_dict:r.autor.username }}</span></figcaption> 
                     </figure>
                   </div>
                 

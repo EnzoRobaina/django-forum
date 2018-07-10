@@ -7,17 +7,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="Enzo">
-    <!--<link rel="icon" href="../../../../favicon.ico"> -->
-
     <title>Lista de tópicos</title>
-
     <!-- Bootstrap core CSS -->
     <link href="{% static 'forum/css/bootstrap.min.css' %}" rel="stylesheet">
     <link href="{% static 'forum/css/default.css' %}"rel="stylesheet">
-    
-    <!-- <link href="../../static/forum/bootstrap.min.css" rel="stylesheet">
-    <link href="../../static/forum/styles.css" rel="stylesheet"> -->
     {% include './navbar.html' %}
+    
   <div class = "wd-100 container" id = "container">
     
 
@@ -40,8 +35,6 @@
           {% endif %} 
         <table class="table table-dark">
             <thead>
-              <!--  url 'criar_topico' ||  url 'topico' t.id  -->
-              
               <tr>
                 <th>Tópicos: </th>
               </tr>
@@ -58,7 +51,7 @@
                 {% else %}
                 <td>{{ quantidade_respostas|get_value_from_dict:t.titulo }} Respostas</td>
                 {% endif %} 
-                <td>Autor: <span style = "font-weight: bold;">{{ t.autor }}</span></td>
+                <td>Autor: <span style = "font-weight: bold;">{{ t.autor.username }}</span></td>
               </tr>
                  {% endfor %}
             </tbody>
