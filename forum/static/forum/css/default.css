@@ -1,0 +1,91 @@
+#profile{
+  margin-left:1%;
+  margin-right:1%;
+  margin-bottom:1%;
+  margin-top:1%;
+}
+
+#profile-fig-caption{
+  font-family: Tahoma, Geneva, sans-serif;
+  color: white;
+  
+}
+
+#topico{
+  border: 1px solid red;
+}
+#resposta-data{
+  color:white;
+  font-weight: bold;
+}
+
+#resposta{
+  margin-left:1%;
+  margin-right:1%;
+  margin-bottom:1%;
+  margin-top:1%;
+}
+
+#resposta-texto{
+  color:white;
+  word-break: break-word;  
+}
+
+.label-margin{
+  margin-top:1%;
+}
+
+#btn-sair{
+  width: 100px;
+}
+body {
+  background-color: #DEDEDE;
+}
+
+#texto{
+  width:100%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+
+}
+
+#container{
+  background-color: #212529;
+
+}
+
+#tabela{
+  word-break: break-all;
+  table-layout:fixed;
+  width: 100%;
+
+}
+
+#bounds{
+  width: auto;
+  
+}
+
+#search{
+  width:100%;
+  
+
+}
+
+#logo {
+  margin-top: 10%;
+  margin-bottom: 10%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+.title{
+  color: white;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-right: 2px;
+  padding-left: 2px;
+}

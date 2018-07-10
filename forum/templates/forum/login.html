@@ -1,0 +1,58 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Enzo">
+    <!--<link rel="icon" href="../../../../favicon.ico"> -->
+
+    <title>Login no forum</title>
+
+   <!-- Bootstrap core CSS -->
+   <link href="{% static 'forum/css/bootstrap.min.css' %}" rel="stylesheet">
+   <link href="{% static 'forum/css/default.css' %}"rel="stylesheet">
+   
+   <!-- <link href="../../static/forum/bootstrap.min.css" rel="stylesheet">
+   <link href="../../static/forum/styles.css" rel="stylesheet"> -->
+  </head>
+
+  <body>
+    
+        
+        <div id = "box">
+          <div id = "bounds" style="margin-left:33%; width: 33%; margin-right:33%;">
+        <img id = "logo" src="{% static 'forum/img/django-forum-logo.png' %}" width="" height="" alt="">
+        {% if next %}
+          <form action="/?next={{next}}" class="form-control" method="POST">
+        {%else%}
+          <form class="form-control" method="POST"> 
+        {% endif %}
+        
+        {% csrf_token %}
+        <label for="username">Nome de usuário: </label>
+        <input type="text" name="username" id="username" class="form-control" placeholder="Nome de usuário">
+        
+        <label for="password">Senha: </label>
+        <input name="password" type="password" id="password" class="form-control" placeholder="Senha">
+        <a href = "{% url 'registrar' %}">Registrar-se?</a>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Logar</button>
+        </form>
+          </div>
+            <div id = "messages">
+            {% if messages %}
+            <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %} style="color:red">{{ message }}</li>
+            {% endfor %}
+            </ul>
+            {% endif %}
+          </div>
+      </div>
+
+
+
+    </div>
+  </body>
+</html>

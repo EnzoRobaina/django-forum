@@ -1,0 +1,96 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Enzo">
+    <title>Tópico</title>
+    <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
+    <script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
+    <link href="{% static 'forum/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'forum/css/default.css' %}"rel="stylesheet">
+  </head>
+  <body>
+    {% include './navbar.html' %}
+<div class = "wd-100 container">
+            
+            
+            <div id = "topico">
+                
+                <div class="media" style="background-color:#212529;">
+                  <div id = "profile">
+                  <figure>
+                    
+                    <img class="rounded align-self-start mr-3 img-thumbnail float-left" {% if not topico.autor.avatar %} src="{% static 'forum/img/profile.png' %}" {% else %} src="{{ topico.autor.avatar.url }}" {% endif %} alt="Profile Pic" width="128" height="256">
+                    <figcaption><span id = "profile-fig-caption"> {{ topico.autor.first_name }} {{ topico.autor.last_name }} <br> {{ topico.autor.username }} <br> Posts: 12 <br> Replies: 13</span></figcaption> 
+                  </figure>
+                </div>
+              
+              <div id = "resposta"class="media-body">
+                <span id = "resposta-data">{{ topico.data_postagem }}</span><br><br> 
+                <span id = "resposta-texto">
+                  {{ topico.texto|safe }}
+                </span>
+              </div>
+              
+
+              </div>
+
+          </div>
+          
+
+    
+            {% for r in resposta_lista %}
+            <div id = "resposta">
+                
+                  <div class="media" style="background-color:#212529;">
+                    <div id = "profile">
+                    <figure>
+                        <img class="rounded align-self-start mr-3 img-thumbnail float-left" {% if not r.autor.avatar %} src="{% static 'forum/img/profile.png' %}" {% else %} src="{{ r.autor.avatar.url }}" {% endif %} alt="Profile Pic" width="128" height="256">
+                      <figcaption><span id = "profile-fig-caption"> {{ r.autor.first_name }} {{ r.autor.last_name }} <br> {{ r.autor.username }} <br> Posts: 12 <br> Replies: 13</span></figcaption> 
+                    </figure>
+                  </div>
+                
+                <div id = "resposta"class="media-body">
+                  <span id = "resposta-data">{{ r.data_postagem }}</span><br><br> 
+                  <span id = "resposta-texto">
+                    {{ r.texto|safe }}
+                  </span>
+                </div>
+                
+
+                </div>
+
+          </div>
+          {% endfor %}
+
+          {% if user.is_authenticated %}
+            <form  class="form-control" method="POST">
+            {% csrf_token %}
+            <div id = "escrever-resposta">
+              <input name="autor" type = "hidden" value="{{ request.user.id }}">
+              <input name="topico_fk" type="hidden" value="{{ topico.id }}">
+              <div id = "texto" >{{ form.texto }}</div>
+              <button class="btn btn-lg btn-primary btn-block" type="submit">Postar resposta</button>
+            </form>
+            {% else %}
+              <a href = "/?next={{request.path}}"><span style="color:red;">Você precisa estar logado para responder</span></a>
+            {% endif %} 
+          
+            </div>
+
+
+
+
+
+
+
+
+</div>
+
+
+</body>
+</html>

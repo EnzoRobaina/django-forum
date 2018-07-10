@@ -1,0 +1,87 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Enzo">
+    <title>Tópico</title>
+    
+    <link href="{% static 'forum/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'forum/styles.css' %}" rel="stylesheet">
+  </head>
+<div class = "wd-100 container">
+     <table id = "tabela" class="table table-dark" >
+            <thead>
+              <tr>
+                <th>
+                    <label for="texto-original">{{ topico.autor  }}<br>Data da postagem: {{ topico.data_postagem }}<br><br></label>
+                    <div id = "texto-orignal">{{ topico.texto }}</div></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for r in resposta_lista %} 
+              <tr>
+                <td>
+                    <div id = "resposta">
+                            <label for="resposta">Autor: {{ r.autor }}<br>Data da postagem: {{ r.data_postagem }}</label>
+                       <br>
+                       {{ r.texto }}
+
+                    </div>
+                </td>
+
+              </tr>
+              {% endfor %}
+              <form action="{% url "topico" topico.id %}" class="form-control" method="POST">
+                  {% csrf_token %}
+                  
+            <tr>
+                  
+              <td>
+                  
+                    
+                     
+                      <label for="autor">Autor: </label>
+                      {{ form.autor}}
+                      <br>
+                      <label for="texto">Escreva sua resposta: </label>
+                      {{ form.texto }}
+                      
+                  
+                  <button class="btn btn-lg btn-primary btn-block" type="submit">Postar resposta</button>
+                  
+
+
+
+              </td>
+            </form>
+
+
+            </tr>
+            
+
+
+    
+
+
+
+
+
+  </div>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+</html>
