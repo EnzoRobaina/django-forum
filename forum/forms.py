@@ -6,7 +6,7 @@ from ckeditor.widgets import CKEditorWidget
 from django.core.files.images import get_image_dimensions
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
-
+from django.forms.widgets import FileInput, EmailInput
 
 class TopicoForm(ModelForm):
     class Meta:
@@ -35,6 +35,7 @@ class UserForm(ModelForm):
     class Meta:
         model = User
         fields = ['avatar', 'username', 'password', 'first_name', 'last_name', 'email']
+        
 
     def clean_avatar(self):
         avatar = self.cleaned_data['avatar']
@@ -76,3 +77,51 @@ class UserForm(ModelForm):
         #verifica se o email já foi usado
         if User.objects.filter(email=email).exists():
             raise ValidationError(_("Este email já está associado à uma conta."), code='invalid')
+        return email
+
+class UserUpdateForm(ModelForm):
+    class Meta:
+        model = User
+        fields = ['avatar', 'first_name', 'last_name', 'email']
+        widgets = {
+            'first_name':TextInput(attrs={'class': 'form-control'}),
+            'first_name':TextInput(attrs={'class': 'form-control'}),
+            'email':EmailInput(attrs={'class': 'form-control'}),
+            'last_name':TextInput(attrs={'class': 'form-control'}),
+            'avatar':FileInput(attrs={'accept': "image/png, image/jpeg, image/gif"}),
+        }
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if not email:
+            raise ValidationError(_("Campo email vazio"), code='invalid')
+        return email
+
+    def clean_avatar(self):
+        avatar = self.cleaned_data['avatar']
+        if avatar:
+            try:
+                w, h = get_image_dimensions(avatar)
+
+                #verifica a resolucao da imagem
+                max_width = 800
+                max_height = 600
+                if w > max_width or h > max_height:
+                    
+                    raise ValidationError(_('A imagem deve ser no máximo 800x600'), code='invalid')
+
+                #valida o formato da imagem
+                main, sub = avatar.content_type.split('/')
+                if not (main == 'image' and sub in ['jpeg', 'pjpeg', 'gif', 'png']):
+                    raise ValidationError(_('A imagem deve ser JPEG, GIF ou PNG.'), code='invalid')
+
+                #valida o tamanho da imagem
+                if len(avatar) > (40 * 1024):
+                    raise ValidationError(_('A imagem não pode ser maior que 40k.'), code='invalid')
+
+            except AttributeError:
+                pass
+        else:
+            raise ValidationError(_("Defina uma imagem de usuário"), code='invalid')
+        return avatar
+    

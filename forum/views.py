@@ -4,12 +4,37 @@ from .forms import *
 from django.http import Http404
 from django.utils import timezone
 from django.db.models import Count
-
 from django.contrib.auth import login, authenticate, logout
-from django.views.generic import View
+from django.views import View
 from django.contrib import messages
 from django.db.models import Q
+from django.http import HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import update_session_auth_hash
+from django.utils.decorators import method_decorator
+from django.contrib.auth.forms import PasswordChangeForm
+from django.shortcuts import render, redirect
 
+@method_decorator(login_required, name='dispatch')
+class Account(View):
+    
+    def get(self, request):
+        form = UserUpdateForm(instance=request.user)
+        user_topicos = Topico.objects.filter(autor=request.user)
+        context = {'user_topicos':user_topicos, 'form':form}            
+        return render(request, 'forum/account.html', context)
+
+    def post(self, request):
+        form = UserUpdateForm(request.POST or None, request.FILES or None, instance=request.user)
+        if form.is_valid:
+            
+            form.save(commit=False)
+            
+            form.save()
+            return redirect('/account')
+        context = {'user_topicos':user_topicos, 'form':form}            
+        return render(request, 'forum/account.html', context)
+    #import ipdb; ipdb.set_trace()
 
 def log(request):
     #define a next url caso exista
@@ -66,7 +91,23 @@ def registrar(request):
     
     context = {'form':form}            
     return render(request, 'forum/registrar.html', context)
-        
+
+@login_required
+def update_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            return redirect('/account')
+        else:
+            messages.error(request, 'Preencha a senha corretamente!')
+    else:
+        form = PasswordChangeForm(request.user)
+    
+    context = {'form':form}
+    return render(request, 'forum/update_password.html', context)
+
 def forum(request):
     discussao_lista = Discussao.objects.all()
     quantidades = {}
@@ -105,19 +146,7 @@ def discussao(request, discussao_titulo):
     return render(request, 'forum/discussao.html', context)
 
 def topico(request, discussao_titulo, topico_id):
-    #contando os topicos e as respostas de cada usuario e armazenando em um dicionario
-    respostas = {}
-    posts = {}
-    users = User.objects.all()
-
-    #topicos
-    for u in users:
-        posts.update({u.username:Topico.objects.filter(autor__username = u.username).count()})
-
-    #respostas
-    for u in users:
-        respostas.update({u.username:Resposta.objects.filter(autor__username = u.username).count()})
-        
+    path = request.path    
     #pegando o topico de acordo com a url, para a discussão em questão
     try:
         topico = Topico.objects.get(pk = topico_id)
@@ -125,15 +154,21 @@ def topico(request, discussao_titulo, topico_id):
         raise Http404("Tópico não existe nesta discussão.")
     
     form = RespostaForm(request.POST or None)
-    #import ipdb; ipdb.set_trace()
-    if form.is_valid():        
+    
+    if form.is_valid():
+        user = request.user
+        #import ipdb; ipdb.set_trace()
+        user.replies += 1
+        user.save()               
         form.save()
+        return redirect(path)
     
     resposta_lista = Resposta.objects.filter(topico_fk__id = topico_id)
-    context = {'topico':topico, 'resposta_lista': resposta_lista, 'form':form, 'respostas':respostas, 'posts':posts}
+    context = {'topico':topico, 'resposta_lista': resposta_lista, 'form':form}
     return render(request, 'forum/topico.html', context)
 
 def criar_topico(request, discussao_titulo):
+    
     try:    
         discussao = Discussao.objects.get(titulo = discussao_titulo)
     except Discussao.DoesNotExist:
@@ -141,9 +176,12 @@ def criar_topico(request, discussao_titulo):
 
     form = TopicoForm(request.POST or None)
     #import ipdb; ipdb.set_trace()
-    if form.is_valid():        
+    if form.is_valid():
+        user = request.user
+        user.posts += 1
+        user.save()        
         form.save()
-        return redirect("../")
+        return redirect('../')
     
     context = {'discussao': discussao, 'form': form}
     return render(request, 'forum/criar_topico.html', context)

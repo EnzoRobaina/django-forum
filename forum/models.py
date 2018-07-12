@@ -8,14 +8,23 @@ from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import AbstractUser
+import os
+
 
 class User(AbstractUser):
     #funcao que define o diretorio da imagem como o nome do usuario em questao
     def imagepath(instance,filename):
-            val="avatars/" + str(instance.username) + "/" + str(filename)
-            return val
+        ext = filename.split('.')[-1]
+        filename = 'avatar.{}'.format(ext)
+        val="avatars/" + str(instance.username) + "/" + str(filename)
+
+        if os.path.exists(val):
+            os.remove(val)
+        return val
             
     avatar = models.ImageField(upload_to=imagepath, height_field='', width_field='', blank=True)
+    posts = models.IntegerField(default=0)
+    replies = models.IntegerField(default=0)
 
     def __str__(self):
         return 'ID: {}, username: {}'.format(self.id, self.username)

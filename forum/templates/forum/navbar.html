@@ -1,12 +1,15 @@
 {% load static %}
+
 <nav class="navbar navbar-expand navbar-dark fixed-top bg-dark">
     <a class="navbar-brand" href="/forum"><img class="d-inline-block align-top" src="{% static 'forum/img/django-forum-logo.png' %}" width="85" height="35" alt=""></a>
     <div class="collapse navbar-collapse" id="navbarCollapse">
       <ul class="navbar-nav mr-auto">
-        {% if user.is_authenticated %}  
-        <span class="navbar-text">
-            Bem-vindo, {{ user.get_username }}.
-          </span>
+        {% if user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" href="/account">Bem-vindo, {{ user.get_username }}.</a>
+        </li>  
+        
+          
         {% else %}
         <li class="nav-item">
           <a class="nav-link" href="/?next={{request.path}}">Bem-vindo, visitante. Logue-se.</a>
@@ -14,7 +17,16 @@
         {% endif %}
         
       </ul>
-      <a href = "/logout"><button id = "btn-sair" type="button" class="btn btn-danger">Sair</button></a>
+      <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Opções
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <a class="dropdown-item" href="/account">Perfil</a>
+          <a class="dropdown-item" href="/logout">Sair</a>
+          
+        </div>
+      </div>
     </div>
   </nav>
 

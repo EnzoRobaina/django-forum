@@ -11,6 +11,10 @@
     <title>{{ topico.titulo }}</title>
     <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
     <script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
     <link href="{% static 'forum/css/bootstrap.min.css' %}" rel="stylesheet">
     <link href="{% static 'forum/css/default.css' %}"rel="stylesheet">
   </head>
@@ -26,7 +30,7 @@
                   <figure>
                     
                     <img class="rounded align-self-start mr-3 img-thumbnail float-left" {% if not topico.autor.avatar %} src="{% static 'forum/img/profile.png' %}" {% else %} src="{{ topico.autor.avatar.url }}" {% endif %} alt="Profile Pic" width="128" height="256">
-                    <figcaption><span id = "profile-fig-caption"> {{ topico.autor.first_name }} {{ topico.autor.last_name }} <br> {{ topico.autor.username }} <br> Posts: 12 <br> Replies: 13</span></figcaption> 
+                    <figcaption><span id = "profile-fig-caption"> {{ topico.autor.first_name }} {{ topico.autor.last_name }} <br> {{ topico.autor.username }} <br> Posts: {{ topico.autor.posts }} <br> Replies: {{ topico.autor.replies }}</span></figcaption> 
                   </figure>
                 </div>
               
@@ -51,7 +55,7 @@
                     <div id = "profile">
                     <figure>
                         <img class="rounded align-self-start mr-3 img-thumbnail float-left" {% if not r.autor.avatar %} src="{% static 'forum/img/profile.png' %}" {% else %} src="{{ r.autor.avatar.url }}" {% endif %} alt="Profile Pic" width="128" height="256">
-                      <figcaption><span id = "profile-fig-caption"> {{ r.autor.first_name }} {{ r.autor.last_name }} <br> {{ r.autor.username }} <br> Posts: {{ posts|get_value_from_dict:r.autor.username }} <br> Respostas: {{ respostas|get_value_from_dict:r.autor.username }}</span></figcaption> 
+                      <figcaption><span id = "profile-fig-caption"> {{ r.autor.first_name }} {{ r.autor.last_name }} <br> {{ r.autor.username }} <br> Posts: {{ r.autor.posts }} <br> Respostas: {{ r.autor.replies }}</span></figcaption> 
                     </figure>
                   </div>
                 

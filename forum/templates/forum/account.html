@@ -1,0 +1,128 @@
+{% load static %}
+{% load tags %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Enzo">
+    <title>{{ request.user.username }}</title>
+    <link href="{% static 'forum/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'forum/css/default.css' %}"rel="stylesheet">
+  </head>
+  <body>
+
+        {% include './navbar.html' %}
+
+<div class="container">
+        
+    <div class="row my-2">
+        <div class="col-lg-8 order-lg-2">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a href="#" data-target="#profile" data-toggle="tab" class="nav-link active">Perfil</a>
+                </li>
+                <li class="nav-item">
+                    <a href="" data-target="#edit" data-toggle="tab" class="nav-link">Editar</a>
+                </li>
+            </ul>
+            <div class="tab-content py-4">
+                <div class="tab-pane active"  id="profile">
+                    
+                      <div class="alert alert-dark alert-primary" role="alert">  
+                      <h5 class="mb-3">Nome de usuário: <strong>{{ request.user.username }}</strong></h5></div>
+                    
+                        
+                            <div style = "width:100%;" class="alert alert-dark alert-primary" role="alert"><h5>Nome: <strong>{{ request.user.first_name }} {{ request.user.last_name }}</strong></h5></div>
+                            <div class="alert alert-dark alert-primary" role="alert">  <p><h6>End. de e-mail: 
+                                <strong>{{ request.user.email }}</strong></h6>
+                            </p></div>
+                            <div class="alert alert-dark alert-primary" role="alert">  <p>
+                                Último login: {{ request.user.last_login }}  
+                            </p></div>
+                            <div class="alert alert-dark alert-primary" role="alert">  <p>
+                                Entrou em: {{ request.user.date_joined }}    
+                            </p></div>
+                            
+                            
+                        
+                        
+                        <div id ="posts" class="col-md-12">
+                                <h5 class="mt-2">Tópicos: </h5>
+                            <table class="table table-sm table-hover">
+                                
+                                <tbody>  
+                                        {% for p in user_topicos %}                                  
+                                    <tr>
+                                        
+                                        <td>
+                                            {{ p.titulo }}
+                                        </td>
+                                    </tr>
+                                        {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    
+                    
+                </div>
+                <div class="tab-pane" id="edit">
+                        <form enctype="multipart/form-data" class="form-control" method="POST"> 
+                            {% csrf_token %}
+                           
+                            {{ form.as_p }}
+<!--
+                            <label for="avatar" class = "label-margin">Imagem de perfil: </label>
+                        <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg, image/gif">
+                            <br>
+
+                            
+                            
+                            <label for="first_name" class = "label-margin">Primeiro nome: </label>
+                            <input type="text" name="first_name" class="form-control" placeholder="Insira o primeiro nome" >
+
+                            <label for="last_name" class = "label-margin">Sobrenome: </label>
+                            <input type="text" name="last_name" class="form-control" placeholder="Insira o sobrenome" >
+
+                            <label for="email" class = "label-margin">Endereço de email: </label>
+                            <input type="email" name="email" class="form-control" aria-describedby="emailHelp" placeholder="Insira o email">
+                            
+                            <label for="password" class = "label-margin">Senha: </label>
+                            <input name="password" type="password" id="password" class="form-control" placeholder="(Mín. 8 caracteres)">
+                            
+
+                            <label for="username" class = "label-margin">Nome de usuário: </label>
+                            <input type="text" name="username" id="username" class="form-control" placeholder="Insira o nome de usuário">-->
+
+                            <button type="submit" class="btn btn-lg btn-primary btn-block" style="margin-top:3%">Salvar</button>
+                            
+                            <a class="btn btn-secondary btn-lg btn-block" href="/account/trocar_senha" role="button">Alterar senha</a>
+                            
+                            
+                            </form>
+                            
+                            <div id = "messages">
+                                    
+                                    {% if form.errors %}
+                                    {% for field in form %}
+                                    <span style ="color:red;">{{ field.errors }}</span>
+                                    {% endfor %}
+                                    {% endif %}
+                                    </div>
+                        
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 order-lg-1 text-center">
+            <img {% if not request.user.avatar %} src="{% static 'forum/img/profile.png' %}" {% else %} src="{{ request.user.avatar.url }}"{% endif %} class="mx-auto img-fluid img-circle d-block" width="128" height="256" alt="avatar">
+            
+        </div>
+    </div>
+</div>
+</body>
+</html>
