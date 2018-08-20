@@ -11,7 +11,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 [PT-BR]
 
-As instruções permitiram rodar este projeto na sua máquina
+As instruções permitirem rodar este projeto na sua máquina
 
 ### Prerequisites || Pré-requisitos
 
