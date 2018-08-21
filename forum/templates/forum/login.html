@@ -7,45 +7,48 @@
     <meta name="description" content="">
     <meta name="author" content="Enzo">
     <title>Login no forum</title>
-   <link href="{% static 'forum/css/bootstrap.min.css' %}" rel="stylesheet">
-   <link href="{% static 'forum/css/default.css' %}"rel="stylesheet">
+    <link href="{% static 'forum/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'forum/css/default.css' %}"rel="stylesheet">
+    <script src="{% static 'forum/js/jquery.js' %}"></script>
+    <script src="{% static 'forum/js/login.js' %}"></script>
   </head>
 
   <body>
-    
-        
-        <div id = "box">
-          <div id = "bounds" style="margin-left:33%; width: 33%; margin-right:33%;">
-        <img id = "logo" src="{% static 'forum/img/django-forum-logo.png' %}" width="" height="" alt="">
+    <div class = "container-wd-100">
+      <div id = "bounds">
+        <img id = "logo" src="{% static 'forum/img/django-forum-logo.png' %}">
+
         {% if next %}
-          <form action="/?next={{next}}" class="form-control" method="POST">
+          <form id = "login-form" action="/?next={{next}}" class="form-control" method="POST">
         {%else%}
-          <form class="form-control" method="POST"> 
+          <form id = "login-form" class="form-control" method="POST"> 
         {% endif %}
-        
+      
         {% csrf_token %}
-        <label for="username">Nome de usuário: </label>
-        <input type="text" name="username" id="username" class="form-control" placeholder="Nome de usuário">
-        
-        <label for="password">Senha: </label>
-        <input name="password" type="password" id="password" class="form-control" placeholder="Senha">
+        <div class = "form-group">
+          <label for="username">Nome de usuário: </label>
+          <input type="text" name="username" id="username" class="form-control" placeholder="Nome de usuário">
+          <div id = "inv-username" class="invalid-feedback"></div>
+        </div>
+
+        <div class = "form-group">
+          <label for="password">Senha: </label>
+          <input name="password" type="password" id="password" class="form-control" placeholder="Senha">
+          <div id = "inv-password" class="invalid-feedback"></div>
+        </div>
+
         <a href = "{% url 'registrar' %}">Registrar-se?</a>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Logar</button>
+
+        <button id = "login" class="btn btn-lg btn-primary btn-block" type="submit">Logar</button>
+        
+        {% if messages %}
+          {% for message in messages %}
+          <span class = "c-msg">{{ message }}</span>
+          {% endfor %}
+        {% endif %}
         </form>
-          </div>
-            <div id = "messages">
-            {% if messages %}
-            <ul class="messages">
-            {% for message in messages %}
-            <li{% if message.tags %} class="{{ message.tags }}"{% endif %} style="color:red">{{ message }}</li>
-            {% endfor %}
-            </ul>
-            {% endif %}
-          </div>
+    
       </div>
-
-
-
     </div>
   </body>
 </html>
