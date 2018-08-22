@@ -41,29 +41,27 @@ pip install Pillow
 
 ## Deployment || Rodando
 
-```
+```bash
+# migrate the db || migre o banco
+
+python manage.py migrate --run-syncdb
+
+# you must create a superuser || é necessário criar um superusuário
+
+python manage.py createsuperuser
+
+# running the server || rodando o servidor
+
 python manage.py runserver
 ```
 
 ## Help || Ajuda
 
-1) Default superuser is 'admin', password is 'adminadmin'. Create your own superuser with:
-
-```
-python manage.py createsuperuser
-```
-
-2) Only the admin can create discussions.
+1) Only the admin can create discussions.
 
 [PT-BR]
 
-1) Administrador padrão é 'admin', a senha é 'adminadmin'. Para criar um administrador:
-
-```
-python manage.py createsuperuser
-```
-
-2) Somente o administrador pode criar discussões.
+1) Somente o administrador pode criar discussões.
 
 
 ## Author || Autor 
