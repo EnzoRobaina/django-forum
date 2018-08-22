@@ -1,101 +1,73 @@
 {% load static %}
 {% load tags %}
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="Enzo">
-    <title>{{ topico.titulo }}</title>
-    <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
-    <script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
-    <link href="{% static 'forum/css/bootstrap.min.css' %}" rel="stylesheet">
-    <link href="{% static 'forum/css/default.css' %}"rel="stylesheet">
+  {% include './head.html' %}
+    <title>{{ topico.titulo }}</title>
+    <script type="text/javascript" src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
+    <script type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
   </head>
+  
   <body>
     {% include './navbar.html' %}
-<div class = "wd-100 container">
-            
-            
-            <div id = "topico">
-                
-                <div class="media" style="background-color:#212529;">
-                  <div id = "profile">
-                  <figure>
-                    
-                    <img class="rounded align-self-start mr-3 img-thumbnail float-left" {% if not topico.autor.avatar %} src="{% static 'forum/img/profile.png' %}" {% else %} src="{{ topico.autor.avatar.url }}" {% endif %} alt="Profile Pic" width="128" height="256">
-                    <figcaption><span id = "profile-fig-caption"> {{ topico.autor.first_name }} {{ topico.autor.last_name }} <br> {{ topico.autor.username }} <br> Posts: {{ topico.autor.posts }} <br> Replies: {{ topico.autor.replies }}</span></figcaption> 
-                  </figure>
-                </div>
-              
-              <div id = "resposta"class="media-body">
-                <span id = "resposta-data">{{ topico.data_postagem }}</span><br><br> 
-                <span id = "resposta-texto">
-                  {{ topico.texto|safe }}
-                </span>
-              </div>
-              
+    <div class = "wd-100 container"> 
+      <div id = "topico">
+        <div class="media" style="background-color:#212529;">
 
-              </div>
-
+          <div id = "profile">
+            <figure>
+              <img class="rounded align-self-start mr-3 img-thumbnail float-left" {% if not topico.autor.avatar %} src="{% static 'forum/img/profile.png' %}" {% else %} src="{{ topico.autor.avatar.url }}" {% endif %} alt="Profile Pic" width="128" height="256">
+              <figcaption>
+                <span id = "profile-fig-caption"> {{ topico.autor.first_name }} {{ topico.autor.last_name }} <br> {{ topico.autor.username }} <br> Posts: {{ topico.autor.posts }} <br> Replies: {{ topico.autor.replies }}</span>
+              </figcaption> 
+            </figure>
           </div>
-          
-
+      
+          <div id = "resposta" class="media-body">
+            <span id = "resposta-data">{{ topico.data_postagem }}</span><br><br> 
+            <span id = "resposta-texto">{{ topico.texto|safe }}</span>
+          </div>
+        </div>
+      </div>
     
-            {% for r in resposta_lista %}
-            <div id = "resposta">
-                
-                  <div class="media" style="background-color:#212529;">
-                    <div id = "profile">
-                    <figure>
-                        <img class="rounded align-self-start mr-3 img-thumbnail float-left" {% if not r.autor.avatar %} src="{% static 'forum/img/profile.png' %}" {% else %} src="{{ r.autor.avatar.url }}" {% endif %} alt="Profile Pic" width="128" height="256">
-                      <figcaption><span id = "profile-fig-caption"> {{ r.autor.first_name }} {{ r.autor.last_name }} <br> {{ r.autor.username }} <br> Posts: {{ r.autor.posts }} <br> Respostas: {{ r.autor.replies }}</span></figcaption> 
-                    </figure>
-                  </div>
-                
-                <div id = "resposta"class="media-body">
-                  <span id = "resposta-data">{{ r.data_postagem }}</span><br><br> 
-                  <span id = "resposta-texto">
-                    {{ r.texto|safe }}
-                  </span>
-                </div>
-                
-
-                </div>
-
-          </div>
-          {% endfor %}
-
-          {% if user.is_authenticated %}
-            <form  class="form-control" method="POST">
-            {% csrf_token %}
-            <div id = "escrever-resposta">
-              <input name="autor" type = "hidden" value="{{ request.user.id }}">
-              <input name="topico_fk" type="hidden" value="{{ topico.id }}">
-              <div id = "texto" >{{ form.texto }}</div>
-              <button class="btn btn-lg btn-primary btn-block" type="submit">Postar resposta</button>
-            </form>
-            {% else %}
-              <a href = "/?next={{request.path}}"><span style="color:red;">Você precisa estar logado para responder</span></a>
-            {% endif %} 
+      {% for r in resposta_lista %}
+        <div id = "resposta">
+          <div class="media" style="background-color:#212529;">
+            <div id = "profile">
+              <figure>
+                <img class="rounded align-self-start mr-3 img-thumbnail float-left" {% if not r.autor.avatar %} src="{% static 'forum/img/profile.png' %}" {% else %} src="{{ r.autor.avatar.url }}" {% endif %} alt="Profile Pic" width="128" height="256">
+                <figcaption>
+                  <span id = "profile-fig-caption"> {{ r.autor.first_name }} {{ r.autor.last_name }} <br> {{ r.autor.username }} <br> Posts: {{ r.autor.posts }} <br> Respostas: {{ r.autor.replies }}</span>
+                </figcaption> 
+              </figure>
+            </div>
           
+            <div id = "resposta" class="media-body">
+              <span id = "resposta-data">{{ r.data_postagem }}</span><br><br> 
+              <span id = "resposta-texto">{{ r.texto|safe }}</span>
             </div>
 
+          </div>
+        </div>
+      {% endfor %}
 
+      {% if user.is_authenticated %}
+        <form  class="form-control" method="POST">
+          {% csrf_token %}
+          <div id = "escrever-resposta">
+            <input name="autor" type = "hidden" value="{{ request.user.id }}">
+            <input name="topico_fk" type="hidden" value="{{ topico.id }}">
 
+            <div id = "texto">
+              {{ form.texto }}
+            </div>
 
-
-
-
-
-</div>
-
-
-</body>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Postar resposta</button>
+          </div>
+        </form>
+      {% else %}
+        <a href = "/?next={{request.path}}"><span style="color:red;">Você precisa estar logado para responder</span></a>
+      {% endif %} 
+    
+    </div>
+  </body>
 </html>
