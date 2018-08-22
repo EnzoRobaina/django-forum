@@ -8,82 +8,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="Enzo">
-    <!--<link rel="icon" href="../../../../favicon.ico"> -->
-
     <title>Discussões</title>
 
-    <!-- Bootstrap core CSS -->
     <link href="{% static 'forum/css/bootstrap.min.css' %}" rel="stylesheet">
     <link href="{% static 'forum/css/default.css' %}"rel="stylesheet">
-    
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+
+    <script src="{% static 'forum/js/jquery.js' %}"></script>
+    <script src="{% static 'forum/js/popper.min.js' %}"></script>
+    <script src="{% static 'forum/js/bootstrap.min.js' %}"></script>
+  </head>
+
+  <body>
     {% include './navbar.html' %}
-  
-  <div class = "wd-100 container" id = "container">
-    
-    
+    <div class = "wd-100 container" id = "container">
       <div id = "forum-lista">
-          
         <table class="table table-hover table-dark ">
-            
-            <thead>
-              
+          <thead>
+            <tr>
+              <th>
+                <h4 class = "title">Discussões: </h4>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for d in discussao_lista %}
               <tr>
-                <th><h4 class = "title">Discussões: </h4></th>
-              </tr>
-            </thead>
-            <tbody>
-                {% for d in discussao_lista %}
-              <tr>
-                <td><a href = "{{ d.titulo }}">{{ d.titulo }}</a>
-                  
-                
-                
-                
+                <td>
+                  <a href = "{{ d.titulo }}">{{ d.titulo }}</a>
                 </td>
-                {% if quantidades|get_value_from_dict:d.titulo == 1 %}
-                <td> {{ quantidades|get_value_from_dict:d.titulo }} Tópico</td>
-                {% else %}
-                <td> {{ quantidades|get_value_from_dict:d.titulo }} Tópicos</td>
-                {% endif %}
-                {% endfor %}
-                
+              {% if quantidades|get_value_from_dict:d.titulo == 1 %}
+                <td> 
+                  {{ quantidades|get_value_from_dict:d.titulo }} Tópico
+                </td>
+              {% else %}
+                <td>
+                  {{ quantidades|get_value_from_dict:d.titulo }} Tópicos
+                </td>
+              {% endif %}
               </tr>
-                 
-            </tbody>
-          </table>
-          
-
+            {% endfor %}
+          </tbody>
+        </table>
       </div>
-
-
-
-
-
-    
-
-
-
-
-
-
-
-
-
-
-  </div>
-
-
-
-
-
-
-
-
-
-
-
-  </html>
+    </div>
+  </body>
+</html>
   
