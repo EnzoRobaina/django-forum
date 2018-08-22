@@ -26,11 +26,6 @@ class RespostaForm(ModelForm):
             'texto': CKEditorWidget()
         }
 
-# class DiscussaoForm(ModelForm):
-#     class Meta:
-#         model = Discussao
-#         exclude = ['__all__']
-
 class UserForm(ModelForm):
     class Meta:
         model = User
@@ -48,7 +43,7 @@ class UserForm(ModelForm):
                 max_height = 600
                 if w > max_width or h > max_height:
                     
-                    raise ValidationError(_('A imagem deve ser no máximo 800x600'), code='invalid')
+                    raise ValidationError(_('A imagem deve ter no máximo 800x600.'), code='invalid')
 
                 #valida o formato da imagem
                 main, sub = avatar.content_type.split('/')
@@ -78,6 +73,7 @@ class UserForm(ModelForm):
         if User.objects.filter(email=email).exists():
             raise ValidationError(_("Este email já está associado à uma conta."), code='invalid')
         return email
+
 
 class UserUpdateForm(ModelForm):
     class Meta:

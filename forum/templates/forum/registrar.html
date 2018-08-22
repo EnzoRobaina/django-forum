@@ -7,62 +7,71 @@
     <meta name="description" content="">
     <meta name="author" content="Enzo">
     <title>Página de cadastro</title>
-   <!-- Bootstrap core CSS -->
-   <link href="{% static 'forum/css/bootstrap.min.css' %}" rel="stylesheet">
-   <link href="{% static 'forum/css/default.css' %}"rel="stylesheet">
+    <link href="{% static 'forum/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'forum/css/default.css' %}"rel="stylesheet">
+    <script src="{% static 'forum/js/jquery.js' %}"></script>
+    <script src="{% static 'forum/js/register.js' %}"></script>
   </head>
 
   <body>
-    <div id = "box">
-        
-        <div id = "bounds" style="margin-left:33%; width: 33%; margin-right:33%;">
-            <img id = "logo" src="{% static 'forum/img/django-forum-logo.png' %}" width="" height="" alt="">
+    <div class = "container-wd-100">
+      <div class = "reg-bounds">
+        <img class = "logo" src="{% static 'forum/img/django-forum-logo.png' %}">
+
         <form enctype="multipart/form-data" class="form-control" method="POST"> 
-        {% csrf_token %}
-       
-        <label for="avatar" class = "label-margin">Imagem de perfil: </label>
-        <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg, image/gif">
-        <br>
+          {% csrf_token %}
 
-        <label for="username" class = "label-margin">Nome de usuário: </label>
-        <input type="text" name="username" id="username" class="form-control" placeholder="Insira o nome de usuário">
-        
-        <label for="first_name" class = "label-margin">Primeiro nome: </label>
-        <input type="text" name="first_name" class="form-control" placeholder="Insira o primeiro nome">
-
-        <label for="last_name" class = "label-margin">Sobrenome: </label>
-        <input type="text" name="last_name" class="form-control" placeholder="Insira o sobrenome">
-
-        <label for="email" class = "label-margin">Endereço de email: </label>
-        <input type="email" name="email" class="form-control" aria-describedby="emailHelp" placeholder="Insira o email">
-        
-        <label for="password" class = "label-margin">Senha: </label>
-        <input name="password" type="password" id="password" class="form-control" placeholder="(Mín. 8 caracteres)">
-        
-        <button type="submit" class="btn btn-lg btn-primary btn-block" style="margin-left:20%; width: 60%; margin-right:20%; margin-top:5%">Registrar</button>
-        </form>
-        
-        <div id = "messages">
+          <div class = "form-group">
+            <label for="avatar" class ="label-margin"> Imagem de perfil: </label>
+            <input type="file" class = "form-control {% if request.method == 'POST' %}{% if form.avatar.errors %} is-invalid {% else %} label-margin {% endif %}{% endif %}" id="avatar" name="avatar" accept="image/png, image/jpeg, image/gif">
+            
             {% if request.method == 'POST' %}
-            {% if form.errors %}
-            {% for field in form %}
-            <span style ="color:red;">{{ field.errors }}</span>
-            {% endfor %}
+              {% if form.avatar.errors %}
+                <div id = "inv-avatar" class="invalid-feedback">{% for error in form.avatar.errors %} <p>{{ error }}</p> {% endfor %} </div>
+              {% endif %}
             {% endif %}
-            {% endif %}
-          {% if messages %}
+          </div>
           
-          <ul class="messages">
-              {% for message in messages %}
-              <li{% if message.tags %} class="{{ message.tags }}"{% endif %} style="color:red">{{ message }}</li>
-              {% endfor %}
-          </ul>
-          {% endif %}
-        </div>
-      </div>
+          <div class = "form-group">
+            <label for="username" class = "label-margin">Nome de usuário: </label>
+            <input type="text" name="username" id="username" class="form-control {% if request.method == 'POST' %}{% if form.username.errors %} is-invalid" {% endif %}{% endif %} placeholder="Insira o nome de usuário">
+            
+            {% if request.method == 'POST' %}
+              {% if form.username.errors %}
+                <div id = "inv-username" class="invalid-feedback">{{ form.username.errors }}</div>
+              {% endif %}
+            {% endif %}
+          </div>
 
-      
+          <div class = "form-group">
+            <label for="first_name" class = "label-margin">Primeiro nome: </label>
+            <input type="text" name="first_name" class="form-control" placeholder="Insira o primeiro nome">
+          </div>
+
+          <div class = "form-group">
+            <label for="last_name" class = "label-margin">Sobrenome: </label>
+            <input type="text" name="last_name" class="form-control" placeholder="Insira o sobrenome">
+          </div>
+
+          <div class = "form-group">
+            <label for="email" class = "label-margin">Endereço de email: </label>
+            <input type="email" name="email" class="form-control {% if request.method == 'POST' %}{% if form.email.errors %} is-invalid" {% endif %}{% endif %} aria-describedby="emailHelp" placeholder="Insira o email">
+            
+            {% if request.method == 'POST' %}
+              {% if form.email.errors %}
+                <div id = "inv-username" class="invalid-feedback">{{ form.email.errors }}</div>
+              {% endif %}
+            {% endif %}
+          </div>
+
+          <div class = "form-group">
+            <label for="password" class = "label-margin">Senha: </label>
+            <input name="password" type="password" id="password" class="form-control" placeholder="(Mín. 8 caracteres)" required>
+          </div>
+          
+          <button id = "register-button" type="submit" class="btn btn-lg btn-primary btn-block">Registrar</button>
+        </form>
+      </div>
     </div>
-    
   </body>
 </html>

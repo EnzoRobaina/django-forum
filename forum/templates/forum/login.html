@@ -16,7 +16,7 @@
   <body>
     <div class = "container-wd-100">
       <div id = "bounds">
-        <img id = "logo" src="{% static 'forum/img/django-forum-logo.png' %}">
+        <img class = "logo" src="{% static 'forum/img/django-forum-logo.png' %}">
 
         {% if next %}
           <form id = "login-form" action="/?next={{next}}" class="form-control" method="POST">
