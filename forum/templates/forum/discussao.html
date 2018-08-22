@@ -8,87 +8,73 @@
     <meta name="description" content="">
     <meta name="author" content="Enzo">
     <title>Lista de tópicos</title>
-    <!-- Bootstrap core CSS -->
+    
     <link href="{% static 'forum/css/bootstrap.min.css' %}" rel="stylesheet">
     <link href="{% static 'forum/css/default.css' %}"rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    <script src="{% static 'forum/js/jquery.js' %}"></script>
+    <script src="{% static 'forum/js/popper.min.js' %}"></script>
+    <script src="{% static 'forum/js/bootstrap.min.js' %}"></script>
+  
+  </head>
+  <body>
     {% include './navbar.html' %}
-    
-  <div class = "wd-100 container" id = "container">
-    
-
+    <div class = "wd-100 container" id = "container">
       <div id = "topicos-lista">
-        
-            <div id = "search">
-                
-            <form name = "search" class="form-inline" method="get">
-                <input name = "pesquisa" class="form-control mr-sm-2" type="search" placeholder="" aria-label="Search" value = {{ request.GET.pesquisa }}>
-                <button class="btn btn-outline-success my-2 my-sm-2" type="submit">Pesquisar</button>
-              </form>
-            </div>
-         
+
+        <div id = "search">  
+          <form name = "search" class="form-inline" method="get">
+            <input name = "pesquisa" class="form-control mr-sm-2" type="search" placeholder="" aria-label="Search" value = {{ request.GET.pesquisa }}>
+            <button class="btn btn-outline-success my-2 my-sm-2" type="submit">Pesquisar</button>
+          </form>
+        </div>
 
         {% if user.is_authenticated %}
-        
           <a href = "criar_topico"><button class="btn btn-sm btn-primary btn-block" type="button" class="btn btn-link">Criar Tópico</button></a>
-          {% else %}
+        {% else %}
           <a href = "/?next={{ request.path }}"><span style="color:red;">Você precisa estar logado para criar um tópico</span></a>
-          {% endif %} 
+        {% endif %} 
+
         <table class="table table-dark">
-            <thead>
+          <thead>
+            <tr>
+              <th>
+                Tópicos: 
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for t in topicos_lista %}
               <tr>
-                <th>Tópicos: </th>
-              </tr>
-            </thead>
-            <tbody>
-                {% for t in topicos_lista %}
-              <tr>
-                <td><a href = "topico/{{ t.id }}">{{ t.titulo }}</a></td>
-                <td></td>
-                <td>{{ t.data_postagem }}</td>
-                {# if somevar == "x" #}
+
+                <td>
+                  <a href = "topico/{{ t.id }}">{{ t.titulo }}</a>
+                </td>
+
+                <td>
+                  {{ t.data_postagem }}
+                </td>
+
                 {% if quantidade_respostas|get_value_from_dict:t.titulo == 1  %}
-                <td>{{ quantidade_respostas|get_value_from_dict:t.titulo }} Resposta</td>
+                  <td>
+                    {{ quantidade_respostas|get_value_from_dict:t.titulo }} Resposta
+                  </td>
+
                 {% else %}
-                <td>{{ quantidade_respostas|get_value_from_dict:t.titulo }} Respostas</td>
-                {% endif %} 
-                <td>Autor: <span style = "font-weight: bold;">{{ t.autor.username }}</span></td>
+                  <td>
+                    {{ quantidade_respostas|get_value_from_dict:t.titulo }} Respostas
+                  </td>
+                {% endif %}
+
+                <td>
+                  Autor: <span style = "font-weight: bold;">{{ t.autor.username }}</span>
+                </td>
+                
               </tr>
-                 {% endfor %}
-            </tbody>
-          </table>
-          
-
+            {% endfor %}
+          </tbody>
+        </table>
       </div>
-
-
-
-
-
-    
-
-
-
-
-
-
-
-
-
-
-  </div>
-
-
-
-
-
-
-
-
-
-
-
-  </html>
+    </div>
+  </body>
+</html>
