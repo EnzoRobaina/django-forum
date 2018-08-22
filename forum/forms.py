@@ -69,6 +69,10 @@ class UserForm(ModelForm):
 
     def clean_email(self):
         email = self.cleaned_data['email']
+        
+        if email == '':
+            raise ValidationError(_("Este campo é obrigatório."), code='invalid')
+
         #verifica se o email já foi usado
         if User.objects.filter(email=email).exists():
             raise ValidationError(_("Este email já está associado à uma conta."), code='invalid')

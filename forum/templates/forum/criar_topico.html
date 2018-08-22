@@ -7,99 +7,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="Enzo">
-    <title>Tópico</title>
-    <!-- Bootstrap core CSS -->
+    <title>Criar Tópico</title>
+
     <link href="{% static 'forum/css/bootstrap.min.css' %}" rel="stylesheet">
     <link href="{% static 'forum/css/default.css' %}"rel="stylesheet">
-    <link href="{% static 'forum/sceditor/minified/themes/default.min.css' %}" rel="stylesheet">
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    <script src="{% static 'forum/js/jquery.js' %}"></script>
+    <script src="{% static 'forum/js/popper.min.js' %}"></script>
+    <script src="{% static 'forum/js/bootstrap.min.js' %}"></script>
 
-    <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
-    <script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
+    <script type="text/javascript" src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
+    <script type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
   </head>
+
   <body>
     {% include './navbar.html' %}
-<div class = "wd-100 container">
-  {% if user.is_authenticated %}
-     <table id = "tabela" class="table table-dark" >
-        <form class="form-control" method="POST">
+    <div class = "wd-100 container">
+      {% if user.is_authenticated %}
+        <table id = "tabela" class="table table-dark" >
+          <form class="form-control" method="POST">
             {% csrf_token %}
             <input name="discussao_fk" type="hidden" value="{{ discussao.id }}">
-            
-            <!-- form.data_postagem -->
 
-              <thead>
+            <thead>
               <tr>
                 <th>
-                    <input name="autor" type = "hidden" value="{{ request.user.id }}">
-                    <label for ="titulo">Título: </label>
-                    
-                    <!-- form.titulo -->
-                <input type="text" class="form-control" name="titulo">
-                    
-                    <!--<label for ="autor">Autor: </label>
-                    
-                    
-                    
-                    <input type="text" class="form-control" name="autor"> -->
-                    <!-- form.autor -->
-                   
-                    
+                  <input name="autor" type = "hidden" value="{{ request.user.id }}">
+                  <label for ="titulo">Título: </label>
+                  <input type="text" class="form-control" name="titulo">
+                </th>  
               </tr>
             </thead>
+
             <tbody>
-             
-              
               <tr>
                 <td>
-                  
-                    <!--<label for="texto">Escreva seu tópico: </label>-->
-                    
-                    <!--form.topico_texto -->
-                    <div id = "texto">{{ form.texto }}</div>
-                <!--<textarea class="form-control" rows="5" name="texto" id="texto"></textarea>-->
-                    
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Postar tópico</button></td>
-              </form>
+                  <div id = "texto">{{ form.texto }}</div>
+                  <button style = "margin-top:2%;" class="btn btn-lg btn-primary btn-block" type="submit">Postar tópico</button>
+                </td>
               </tr>
-            </tr>
+            </tbody>
+          </form>
 
-
-    
-
-
-
-
-
-  </div>
-
-
-
-
-
-
-
-
-{% else %}
-<table id = "tabela" class="table table-dark" >
-
+      {% else %}
+        <table id = "tabela" class="table table-dark">
           <thead>
-          <tr>
-            <th><a href = "/?next={{request.path}}"><span style="color:red;">Você precisa estar logado para criar um tópico</span></a></th>
-              
-            
-                
-            
-                
-          </tr>
-        </thead>
-</table>
-{% endif %}  
-</div>
-
-
-</body>
+            <tr>
+              <th>
+                <a href = "/?next={{request.path}}"><span style="color:red;">Você precisa estar logado para criar um tópico</span></a>
+              </th>  
+            </tr>
+          </thead>
+        </table>
+      {% endif %}  
+    </div>
+  </body>
 </html>
