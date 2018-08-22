@@ -59,9 +59,13 @@ python manage.py runserver
 
 1) Only the admin can create discussions.
 
+###### Navigate to /admin and create the discussions from there.
+
 [PT-BR]
 
 1) Somente o administrador pode criar discussões.
+
+###### Vá em /admin e crie as discussões a partir de lá.
 
 
 ## Author || Autor 
