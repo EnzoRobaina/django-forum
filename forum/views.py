@@ -27,9 +27,6 @@ class Account(View):
     def post(self, request):
         form = UserUpdateForm(request.POST or None, request.FILES or None, instance=request.user)
         if form.is_valid:
-            
-            form.save(commit=False)
-            
             form.save()
             return redirect('/account')
         context = {'user_topicos':user_topicos, 'form':form}            

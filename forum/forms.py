@@ -120,8 +120,6 @@ class UserUpdateForm(ModelForm):
                     raise ValidationError(_('A imagem não pode ser maior que 40k.'), code='invalid')
 
             except AttributeError:
-                pass
-        else:
-            raise ValidationError(_("Defina uma imagem de usuário"), code='invalid')
+                pass 
         return avatar
     
