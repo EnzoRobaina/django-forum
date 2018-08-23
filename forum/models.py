@@ -40,7 +40,7 @@ class Discussao(models.Model):
 
 class Topico(models.Model):
     class Meta:
-        verbose_name_plural = "Tópicos"
+        verbose_name_plural = "Tópicos" 
 
     discussao_fk = models.ForeignKey(Discussao, on_delete=models.CASCADE)
     titulo = models.CharField(max_length=20)

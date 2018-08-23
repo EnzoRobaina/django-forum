@@ -57,8 +57,15 @@
             <input name="autor" type = "hidden" value="{{ request.user.id }}">
             <input name="topico_fk" type="hidden" value="{{ topico.id }}">
 
-            <div id = "texto">
-              {{ form.texto }}
+            <div class = "form-group">
+              <div id = "texto">{{ form.texto }}</div>
+
+              {% if request.method == 'POST' %}
+                {% if form.texto.errors %}
+                  <span id = "inv-texto" class = "c-msg"><b>{{ form.texto.errors }}</b></span>
+                {% endif %}
+              {% endif %}
+              
             </div>
 
             <button class="btn btn-lg btn-primary btn-block" type="submit">Postar resposta</button>

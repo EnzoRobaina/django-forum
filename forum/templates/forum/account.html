@@ -3,10 +3,15 @@
 
   {% include './head.html' %}
     <title>{{ request.user.username }}</title>
+    <script type="text/javascript" src="{% static 'forum/js/account.js' %}"></script>
   </head>
 
     <body>
-        {% include './navbar.html' %}  
+        {% include './navbar.html' %}
+        <input id = "hidden-first_name" type = "hidden" value = "{{ request.user.first_name }}"> 
+        <input id = "hidden-last_name" type = "hidden" value = "{{ request.user.last_name }}"> 
+        <input id = "hidden-email" type = "hidden" value = "{{ request.user.email }}">
+
         <div class="container">
             <div class="row my-2">
                 <div class="col-lg-8 order-lg-2">
@@ -92,7 +97,7 @@
 
                                 <div class = "form-group">
                                     <label for="email">Endereço de email:</label> 
-                                    <input type="email" name="email" class="form-control {% if request.method == 'POST' %}{% if form.email.errors %} is-invalid" {% endif %}{% endif %} maxlength="254" id="email">
+                                    <input type="email" name="email" class="form-control {% if request.method == 'POST' %}{% if form.email.errors %} is-invalid {% endif %}{% endif %}" maxlength="254" id="email">
 
                                     {% if request.method == 'POST' %}
                                         {% if form.email.errors %}

@@ -17,6 +17,18 @@ class TopicoForm(ModelForm):
             'texto': CKEditorWidget()
         }
         
+    def clean_titulo(self):
+        titulo = self.cleaned_data['titulo']
+        if not titulo:
+            raise ValidationError(_("Este campo é obrigatório."), code='invalid')
+        return titulo
+
+    def clean_texto(self):
+        texto = self.cleaned_data['texto']
+        if not texto:
+            raise ValidationError(_("Este campo é obrigatório."), code='invalid')
+        return texto
+
 class RespostaForm(ModelForm):
     class Meta:
         model = Resposta
@@ -25,6 +37,12 @@ class RespostaForm(ModelForm):
         widgets = {
             'texto': CKEditorWidget()
         }
+
+    def clean_texto(self):
+        texto = self.cleaned_data['texto']
+        if not texto:
+            raise ValidationError(_("Este campo é obrigatório."), code='invalid')
+        return texto
 
 class UserForm(ModelForm):
     class Meta:
@@ -70,7 +88,7 @@ class UserForm(ModelForm):
     def clean_email(self):
         email = self.cleaned_data['email']
         
-        if email == '':
+        if not email:
             raise ValidationError(_("Este campo é obrigatório."), code='invalid')
 
         #verifica se o email já foi usado
@@ -83,18 +101,11 @@ class UserUpdateForm(ModelForm):
     class Meta:
         model = User
         fields = ['avatar', 'first_name', 'last_name', 'email']
-        widgets = {
-            'first_name':TextInput(attrs={'class': 'form-control'}),
-            'first_name':TextInput(attrs={'class': 'form-control'}),
-            'email':EmailInput(attrs={'class': 'form-control'}),
-            'last_name':TextInput(attrs={'class': 'form-control'}),
-            'avatar':FileInput(attrs={'accept': "image/png, image/jpeg, image/gif"}),
-        }
 
     def clean_email(self):
         email = self.cleaned_data['email']
         if not email:
-            raise ValidationError(_("Campo email vazio"), code='invalid')
+            raise ValidationError(_("Este campo é obrigatório."), code='invalid')
         return email
 
     def clean_avatar(self):
@@ -108,7 +119,7 @@ class UserUpdateForm(ModelForm):
                 max_height = 600
                 if w > max_width or h > max_height:
                     
-                    raise ValidationError(_('A imagem deve ser no máximo 800x600'), code='invalid')
+                    raise ValidationError(_('A imagem deve ter no máximo 800x600.'), code='invalid')
 
                 #valida o formato da imagem
                 main, sub = avatar.content_type.split('/')

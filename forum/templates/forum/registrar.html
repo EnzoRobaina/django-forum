@@ -25,7 +25,7 @@
           
           <div class = "form-group">
             <label for="username" class = "label-margin">Nome de usuário: </label>
-            <input type="text" name="username" id="username" class="form-control {% if request.method == 'POST' %}{% if form.username.errors %} is-invalid" {% endif %}{% endif %} placeholder="Insira o nome de usuário">
+            <input type="text" name="username" id="username" class="form-control {% if request.method == 'POST' %}{% if form.username.errors %} is-invalid {% endif %}{% endif %}" placeholder="Insira o nome de usuário">
             
             {% if request.method == 'POST' %}
               {% if form.username.errors %}
@@ -46,7 +46,7 @@
 
           <div class = "form-group">
             <label for="email" class = "label-margin">Endereço de email: </label>
-            <input type="email" name="email" class="form-control {% if request.method == 'POST' %}{% if form.email.errors %} is-invalid" {% endif %}{% endif %} aria-describedby="emailHelp" placeholder="Insira o email">
+            <input type="email" name="email" class="form-control {% if request.method == 'POST' %}{% if form.email.errors %} is-invalid {% endif %}{% endif %}" aria-describedby="emailHelp" placeholder="Insira o email">
             
             {% if request.method == 'POST' %}
               {% if form.email.errors %}

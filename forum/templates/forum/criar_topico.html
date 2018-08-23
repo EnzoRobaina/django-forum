@@ -10,19 +10,26 @@
   <body>
     {% include './navbar.html' %}
     <div class = "wd-100 container">
+      <button id = "dummy">asd</button>
       {% if user.is_authenticated %}
         <table id = "tabela" class="table table-dark">
-          <form class="form-control" method="POST">
+          <form id = "criar_topico-form" class="form-control" method="POST">
             {% csrf_token %}
+            <input name="autor" type = "hidden" value="{{ request.user.id }}">
             <input name="discussao_fk" type="hidden" value="{{ discussao.id }}">
 
             <thead>
               <tr>
                 <th>
-                  <input name="autor" type = "hidden" value="{{ request.user.id }}">
-                  <label for ="titulo">Título: </label>
-                  <input id = "titulo" type="text" class="form-control" name="titulo">
-                  <div id = "inv-titulo" class="invalid-feedback"></div>
+                  <div class = "form-group">
+                    <label for ="titulo">Título: </label>
+                    <input id = "titulo" type="text" class="form-control {% if request.method == 'POST' %}{% if form.titulo.errors %} is-invalid {% endif %}{% endif %}" name="titulo">
+                    {% if request.method == 'POST' %}
+                      {% if form.titulo.errors %}
+                        <div id = "inv-titulo" class="invalid-feedback">{{ form.titulo.errors }}</div>
+                      {% endif %}
+                    {% endif %}
+                  </div>
                 </th>  
               </tr>
             </thead>
@@ -32,9 +39,15 @@
                 <td>
                   <div class = "form-group">
                     <div id = "texto">{{ form.texto }}</div>
-                    <span id = "inv-texto" class = "c-msg"></span>
+
+                    {% if request.method == 'POST' %}
+                      {% if form.texto.errors %}
+                        <span id = "inv-texto" class = "c-msg"><b>{{ form.texto.errors }}</b></span>
+                      {% endif %}
+                    {% endif %}
+                    
                   </div>
-                  <button style = "margin-top:2%;" class="btn btn-lg btn-primary btn-block" type="submit">Postar tópico</button>
+                  <button id = "submit-topico" style = "margin-top:2%;" class="btn btn-lg btn-primary btn-block" type="submit">Postar tópico</button>
                 </td>
               </tr>
             </tbody>
