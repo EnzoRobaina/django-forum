@@ -4,13 +4,14 @@
     <title>Criar Tópico</title>
     <script type="text/javascript" src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
     <script type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+    <script type="text/javascript" src="{% static 'forum/js/criar_topico.js' %}"></script>
   </head>
 
   <body>
     {% include './navbar.html' %}
     <div class = "wd-100 container">
       {% if user.is_authenticated %}
-        <table id = "tabela" class="table table-dark" >
+        <table id = "tabela" class="table table-dark">
           <form class="form-control" method="POST">
             {% csrf_token %}
             <input name="discussao_fk" type="hidden" value="{{ discussao.id }}">
@@ -20,7 +21,8 @@
                 <th>
                   <input name="autor" type = "hidden" value="{{ request.user.id }}">
                   <label for ="titulo">Título: </label>
-                  <input type="text" class="form-control" name="titulo">
+                  <input id = "titulo" type="text" class="form-control" name="titulo">
+                  <div id = "inv-titulo" class="invalid-feedback"></div>
                 </th>  
               </tr>
             </thead>
@@ -28,7 +30,10 @@
             <tbody>
               <tr>
                 <td>
-                  <div id = "texto">{{ form.texto }}</div>
+                  <div class = "form-group">
+                    <div id = "texto">{{ form.texto }}</div>
+                    <span id = "inv-texto" class = "c-msg"></span>
+                  </div>
                   <button style = "margin-top:2%;" class="btn btn-lg btn-primary btn-block" type="submit">Postar tópico</button>
                 </td>
               </tr>
